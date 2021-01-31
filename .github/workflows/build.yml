@@ -50,6 +50,6 @@ jobs:
         with:
           body_path: CHANGELOG.md
           files: |
-            dist/${PACKAGE}-win64.tar.gz
+            dist/*-win64.tar.gz
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
