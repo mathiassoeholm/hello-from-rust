@@ -1,4 +1,4 @@
-# Based on https://github.com/woubuc/sweep/blob/master/.github/workflows/build.yml
+# Based on https://github.com/woubuc/$PACKAGE/blob/master/.github/workflows/build.yml
 
 name: build
 
@@ -45,11 +45,27 @@ jobs:
           cp "target/x86_64-pc-windows-gnu/release/$BINARY.exe" "builds/$PACKAGE-win64"
           tar -C builds -czvf "dist/$PACKAGE-win64.tar.gz" "$PACKAGE-win64"
 
+      - name: Build Win32
+        run: |
+          cargo rustc --release --target=i686-pc-windows-gnu -- -C linker=i686-w64-mingw32-gcc -C link-args=-mwindows -C panic=abort
+          mkdir "builds/$PACKAGE-win32"
+          cp "target/i686-pc-windows-gnu/release/$BINARY.exe" "builds/$PACKAGE-win32"
+          tar -C builds -czvf "dist/$PACKAGE-win32.tar.gz" "$PACKAGE-win32"
+
+      - name: Build Linux
+        run: |
+          cargo rustc --release --target=x86_64-unknown-linux-gnu
+          mkdir "builds/$PACKAGE-linux"
+          cp "target/x86_64-unknown-linux-gnu/release/$BINARY" "builds/$PACKAGE-linux"
+          tar -C builds -czvf "dist/$PACKAGE-linux.tar.gz" "$PACKAGE-linux"
+
       - name: Upload release
         uses: softprops/action-gh-release@v1
         with:
           body_path: CHANGELOG.md
           files: |
             dist/*-win64.tar.gz
+            dist/*-win32.tar.gz
+            dist/*-linux.tar.gz
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
