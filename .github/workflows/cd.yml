@@ -65,7 +65,7 @@ jobs:
 
           cd target/${{ matrix.target }}/release
 
-          BINARY_NAME= $BINARY${{ matrix.binary_postfix }}
+          BINARY_NAME=$BINARY${{ matrix.binary_postfix }}
           strip $BINARY_NAME
 
           RELEASE_NAME=$PACKAGE-${{ matrix.artifact_prefix }}
