@@ -8,6 +8,31 @@ on:
     branches: main
 
 jobs:
+  validate:
+    name: Validate
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@main
+      - uses: actions-rs/toolchain@v1
+        with:
+          toolchain: stable
+          profile: minimal
+          override: true
+      - name: Validate versions
+        shell: bash
+        run: |
+          CARGO_TOML_VERSION=$(cargo metadata --format-version 1 | python -c "import sys; import json; print(json.loads(sys.stdin.read())['packages'][0]['version'])")
+          PACKAGE_JSON_VERSION=$(cat package.json | python -c "import sys; import json; print(json.loads(sys.stdin.read())['version'])")
+
+          if [ "$CARGO_TOML_VERSION" == "$PACKAGE_JSON_VERSION" ]; then
+              echo "The versions in Cargo.toml and package.json match"
+          else
+              echo "The versions in Cargo.toml and package.json are not equal!"
+              echo "Cargo.toml: $CARGO_TOML_VERSION"
+              echo "package.json: $PACKAGE_JSON_VERSION"
+              exit 1
+          fi
+
   check:
     name: Check
     runs-on: ubuntu-latest
