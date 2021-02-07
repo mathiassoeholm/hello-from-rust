@@ -1,4 +1,4 @@
-# Copied from: https://github.com/Rigellute/spotify-tui/blob/main/.github/workflows/ci.yml
+# Based on: https://github.com/Rigellute/spotify-tui/blob/main/.github/workflows/ci.yml
 
 name: Continuous Integration
 
