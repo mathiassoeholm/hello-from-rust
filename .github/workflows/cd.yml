@@ -58,16 +58,17 @@ jobs:
 
       - name: Packaging final binary
         shell: bash
-        # - TODO: Get binary name from package json
         run: |
-          BINARY=hello
+          CARGO_PACKAGE_NAME=&(cargo metadata --format-version 1 | python -c "import sys; import json; print(json.loads(sys.stdin.read())['packages'][0]['name'])")
+          PACKAGE_JSON_BIN=$(cat package.json | python -c "import sys; import json; print(json.loads(sys.stdin.read())['bin'].items()[0][0])")
 
           cd target/${{ matrix.target }}/release
+          mv $CARGO_PACKAGE_NAME $PACKAGE_JSON_BIN
 
-          BINARY_NAME=$BINARY${{ matrix.binary_postfix }}
+          BINARY_NAME=$PACKAGE_JSON_BIN${{ matrix.binary_postfix }}
           strip $BINARY_NAME
 
-          RELEASE_NAME=$BINARY-${{ matrix.artifact_prefix }}
+          RELEASE_NAME=$PACKAGE_JSON_BIN-${{ matrix.artifact_prefix }}
           tar czvf $RELEASE_NAME.tar.gz $BINARY_NAME
 
           if [[ ${{ runner.os }} == 'Windows' ]]; then
