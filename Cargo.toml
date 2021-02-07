@@ -3,6 +3,8 @@ name = "mathiassoeholm-hello"
 version = "0.1.0"
 authors = ["Mathias Soeholm <mathiassoeholm@gmail.com>"]
 edition = "2018"
+description = "A short description of my package"
+license = "MIT"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
