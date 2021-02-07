@@ -8,7 +8,7 @@ on:
       - "v*.*.*"
 
 jobs:
-  publish:
+  publish-binaries:
     name: Publishing for ${{ matrix.os }}
     runs-on: ${{ matrix.os }}
     strategy:
@@ -84,3 +84,17 @@ jobs:
             target/${{ matrix.target }}/release/*-${{ matrix.artifact_prefix }}.sha256
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  publish-packages:
+    name: Publishing to Cargo
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@main
+      - uses: actions-rs/toolchain@v1
+        with:
+          toolchain: stable
+          override: true
+      - uses: actions-rs/cargo@v1
+        with:
+          command: publish
+          args: --token ${{ secrets.CARGO_API_KEY }} --allow-dirty
