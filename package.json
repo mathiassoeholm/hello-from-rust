@@ -8,8 +8,7 @@
     "hello": "npm/run.js"
   },
   "scripts": {
-    "preinstall": "node npm/scripts.js uninstall",
-    "postinstall": "node npm/scripts.js install"
+    "postinstall": "node npm/install.js"
   },
   "dependencies": {
     "binary-install": "^0.1.1"

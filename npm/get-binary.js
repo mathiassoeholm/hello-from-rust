@@ -30,7 +30,7 @@ function getBinary() {
   const binary = Object.keys(packageJson.bin)[0];
   const url = `${packageJson.repository}/releases/download/v${packageJson.version}/${binary}-${platform}.tar.gz`;
 
-  return new Binary(url, { name: binary });
+  return new Binary(binary, url);
 }
 
 module.exports = getBinary;
