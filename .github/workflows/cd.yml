@@ -59,7 +59,7 @@ jobs:
       - name: Packaging final binary
         shell: bash
         run: |
-          CARGO_PACKAGE_NAME=&(cargo metadata --format-version 1 | python -c "import sys; import json; print(json.loads(sys.stdin.read())['packages'][0]['name'])")
+          CARGO_PACKAGE_NAME=$(cargo metadata --format-version 1 | python -c "import sys; import json; print(json.loads(sys.stdin.read())['packages'][0]['name'])")
           PACKAGE_JSON_BIN=$(cat package.json | python -c "import sys; import json; print(json.loads(sys.stdin.read())['bin'].items()[0][0])")
 
           cd target/${{ matrix.target }}/release
