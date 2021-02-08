@@ -1,6 +1,6 @@
 {
   "name": "@mathiassoeholm/hello",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "repository": "https://github.com/mathiassoeholm/hello-from-rust",
   "author": "Mathias Soeholm <mathiassoeholm@gmail.com>",
   "license": "MIT",
